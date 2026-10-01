@@ -21,7 +21,21 @@
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.373" />
+
+    <Button
+        android:id="@+id/btnToFifth"
+        android:layout_width="225dp"
+        android:layout_height="59dp"
+        android:text="Pertemuan 5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnToFourth"
+        app:layout_constraintVertical_bias="0.041" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.najah_tie_mobile.pertemuan_2.pertemuan_3
+package com.example.najah_tie_mobile.pertemuan_3
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
