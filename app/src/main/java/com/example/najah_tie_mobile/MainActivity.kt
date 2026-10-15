@@ -8,8 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.najah_tie_mobile.databinding.ActivityMainBinding
-import com.example.najah_tie_mobile.pertemuan_4.FourthActivity
-import com.example.najah_tie_mobile.pertemuan_5.FifthActivity
+import com.example.najah_tie_mobile.Home.pertemuan_4.FourthActivity
+import com.example.najah_tie_mobile.Home.pertemuan_5.FifthActivity
+import com.example.najah_tie_mobile.Home.pertemuan_7.SeventhActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             view.setPadding(
                 systemBars.left,
@@ -50,13 +53,17 @@ class MainActivity : AppCompatActivity() {
         // Tombol menuju Pertemuan 5
         binding.btnToFifth.setOnClickListener {
             val intent = Intent(this@MainActivity, FifthActivity::class.java)
+            startActivity(intent)
+        }
 
+        // Tombol menuju Pertemuan 7 - Fragment
+        binding.btnToSeventh.setOnClickListener {
+            val intent = Intent(this@MainActivity, SeventhActivity::class.java)
             startActivity(intent)
         }
 
         // Tombol Logout
         binding.btnLogout.setOnClickListener {
-
             AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setMessage("Apakah Anda yakin ingin logout?")
@@ -64,13 +71,13 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton("Ya") { dialog, _ ->
 
                     // Mengakses SharedPreferences
-                    val sharedPref =
-                        getSharedPreferences("user_pref", MODE_PRIVATE)
+                    val sharedPref = getSharedPreferences(
+                        "user_pref",
+                        MODE_PRIVATE
+                    )
 
                     // Menghapus data SharedPreferences
-                    val editor = sharedPref.edit()
-                    editor.clear()
-                    editor.apply()
+                    sharedPref.edit().clear().apply()
 
                     dialog.dismiss()
 
