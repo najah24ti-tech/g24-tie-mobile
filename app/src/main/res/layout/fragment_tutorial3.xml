@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0F2F1"
+    tools:context=".Message.tutorial.Tutorial3Fragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:contentDescription="Ikon kirim pesan"
+            android:padding="35dp"
+            android:background="#B2DFDB"
+            android:elevation="5dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="Saatnya Mulai Mengobrol!"
+            android:textColor="#397F78"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Jangan lewatkan momen untuk berbagi cerita. Yuk, mulai percakapan pertamamu sekarang!"
+            android:textColor="#426D68"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,3 +1,4 @@
+
 package com.example.najah_tie_mobile
 
 import android.content.Intent
@@ -15,27 +16,28 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         lifecycleScope.launch {
-
             delay(5000)
 
             val sharedPref = getSharedPreferences("user_pref", MODE_PRIVATE)
             val isLogin = sharedPref.getBoolean("isLogin", false)
 
             if (isLogin) {
-                // Jika sudah login
+                // Jika sudah login, masuk ke halaman utama
                 val intent = Intent(
                     this@SplashScreenActivity,
-                    MainActivity::class.java
+                    BaseActivity::class.java
                 )
                 startActivity(intent)
+
             } else {
-                // Jika belum login
+                // Jika belum login, masuk ke halaman login
                 val intent = Intent(
                     this@SplashScreenActivity,
                     AuthActivity::class.java
                 )
                 startActivity(intent)
             }
+
             finish()
         }
     }
