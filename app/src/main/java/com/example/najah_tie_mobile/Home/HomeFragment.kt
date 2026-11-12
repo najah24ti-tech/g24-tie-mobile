@@ -10,10 +10,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.najah_tie_mobile.AuthActivity
+import com.example.najah_tie_mobile.Home.pertemuan_11.ElevenActivity
 import com.example.najah_tie_mobile.Home.pertemuan_4.FourthActivity
 import com.example.najah_tie_mobile.Home.pertemuan_5.FifthActivity
 import com.example.najah_tie_mobile.Home.pertemuan_7.SeventhActivity
-import com.example.najah_tie_mobile.TenthActivity
+import com.example.najah_tie_mobile.Home.petemuan_10.TenthActivity
 import com.example.najah_tie_mobile.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -67,6 +68,11 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
+        // Tombol menuju Pertemuan 11
+        binding.btnToEleven.setOnClickListener {
+            val intent = Intent(requireContext(), ElevenActivity::class.java)
+            startActivity(intent)
+        }
 
         // Tombol Logout
         binding.btnLogout.setOnClickListener {

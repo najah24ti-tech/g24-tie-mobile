@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.najah_tie_mobile.Home.HomeFragment
 import com.example.najah_tie_mobile.databinding.ActivityAuthBinding
 
 class AuthActivity : AppCompatActivity() {

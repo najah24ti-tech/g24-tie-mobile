@@ -112,6 +112,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Button Pertemuan 11 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnToEleven"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="#F4B6C8"
+        android:text="Pertemuan 11"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnToSeventh" />
+
     <!-- Button Logout -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
@@ -119,15 +136,15 @@
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginHorizontal="48dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="96dp"
         android:text="Logout"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:strokeColor="#E53935"
-        app:strokeWidth="2dp"
         app:cornerRadius="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btnToTenth"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btnToTenth"
+        app:strokeColor="#E53935"
+        app:strokeWidth="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
