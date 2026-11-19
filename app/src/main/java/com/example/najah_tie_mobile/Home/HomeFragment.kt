@@ -7,18 +7,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+
+import com.example.najah_tie_mobile.R
 import com.example.najah_tie_mobile.AuthActivity
+
+import com.example.najah_tie_mobile.Home.Photo.PhotoAdapter
 import com.example.najah_tie_mobile.Home.data.api.CatFactApiClient
+import com.example.najah_tie_mobile.Home.data.model.PhotoApiClient
+import com.example.najah_tie_mobile.Home.data.model.PhotoModel
+
 import com.example.najah_tie_mobile.Home.pertemuan_11.ElevenActivity
 import com.example.najah_tie_mobile.Home.pertemuan_4.FourthActivity
 import com.example.najah_tie_mobile.Home.pertemuan_5.FifthActivity
 import com.example.najah_tie_mobile.Home.pertemuan_7.SeventhActivity
 import com.example.najah_tie_mobile.Home.petemuan_10.TenthActivity
+
 import com.example.najah_tie_mobile.databinding.FragmentHomeBinding
+
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -26,16 +39,20 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private var photoList: List<PhotoModel> = emptyList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentHomeBinding.inflate(
             inflater,
             container,
             false
         )
+
         return binding.root
     }
 
@@ -45,111 +62,182 @@ class HomeFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Tombol menuju Pertemuan 4
+        // Toolbar
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.title = "Home"
+        }
+
+        // Pertemuan 4
         binding.btnToFourth.setOnClickListener {
-            val intent = Intent(
-                requireContext(),
-                FourthActivity::class.java
-            ).apply {
-                putExtra("name", "Politeknik Caltex Riau")
-                putExtra("from", "Rumbai")
-                putExtra("age", 25)
-            }
-            startActivity(intent)
+            startActivity(
+                Intent(requireContext(), FourthActivity::class.java)
+            )
         }
 
-        // Tombol menuju Pertemuan 5
+        // Pertemuan 5
         binding.btnToFifth.setOnClickListener {
-            val intent = Intent(
-                requireContext(),
-                FifthActivity::class.java
+            startActivity(
+                Intent(requireContext(), FifthActivity::class.java)
             )
-            startActivity(intent)
         }
 
-        // Tombol menuju Pertemuan 7
+        // Pertemuan 7
         binding.btnToSeventh.setOnClickListener {
-            val intent = Intent(
-                requireContext(),
-                SeventhActivity::class.java
+            startActivity(
+                Intent(requireContext(), SeventhActivity::class.java)
             )
-            startActivity(intent)
         }
 
-        // Tombol menuju Pertemuan 10
+        // Pertemuan 10
         binding.btnToTenth.setOnClickListener {
-            val intent = Intent(
-                requireContext(),
-                TenthActivity::class.java
+            startActivity(
+                Intent(requireContext(), TenthActivity::class.java)
             )
-            startActivity(intent)
         }
 
-        // Tombol menuju Pertemuan 11
+        // Pertemuan 11
         binding.btnToEleven.setOnClickListener {
-            val intent = Intent(
-                requireContext(),
-                ElevenActivity::class.java
+            startActivity(
+                Intent(requireContext(), ElevenActivity::class.java)
             )
-            startActivity(intent)
         }
 
-        // Tombol Refresh Cat Fact
+        // Refresh Cat Fact
         binding.btnRefresh.setOnClickListener {
             loadCatFact()
         }
 
-        // Tombol Logout
-        binding.btnLogout.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setTitle("Logout")
-                .setMessage("Apakah Anda yakin ingin logout?")
-                .setNegativeButton("Tidak", null)
-                .setPositiveButton("Ya") { dialog, _ ->
+        // Pilihan Mode Gallery
+        binding.toggleGalleryMode.addOnButtonCheckedListener {
+                group, checkedId, isChecked ->
 
-                    // Menghapus SharedPreferences
-                    val sharedPref = requireActivity()
-                        .getSharedPreferences(
-                            "user_pref",
-                            MODE_PRIVATE
-                        )
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.btnHorizontal -> {
+                        setGalleryMode(true)
+                    }
 
-                    sharedPref.edit().clear().apply()
-
-                    dialog.dismiss()
-
-                    // Kembali ke AuthActivity
-                    val intent = Intent(
-                        requireContext(),
-                        AuthActivity::class.java
-                    )
-
-                    startActivity(intent)
-                    requireActivity().finish()
+                    R.id.btnGrid -> {
+                        setGalleryMode(false)
+                    }
                 }
-                .show()
+            }
+        }
+
+        // Load Photo
+        loadPhoto()
+
+        // Logout
+        binding.btnLogout.setOnClickListener {
+            showLogoutDialog()
         }
     }
-    // Mengambil fakta kucing dari API
+
+    // Cat Fact API
     private fun loadCatFact() {
+
         viewLifecycleOwner.lifecycleScope.launch {
 
-            binding.tvCatFact.text = "Loading cat fact..."
-
             try {
+                binding.tvCatFact.text = "Loading..."
+
                 val response =
                     CatFactApiClient.apiService.getCatFact()
 
                 binding.tvCatFact.text = "\"${response.fact}\""
 
             } catch (e: Exception) {
+
                 binding.tvCatFact.text =
                     "Gagal mengambil fakta kucing."
+
+                Toast.makeText(
+                    requireContext(),
+                    "Terjadi kesalahan: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
-    // Membersihkan binding ketika View dihancurkan
+    // Picsum Photo API
+    private fun loadPhoto() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            try {
+                photoList =
+                    PhotoApiClient.apiService.getPhotos()
+
+                binding.rvGallery.adapter =
+                    PhotoAdapter(photoList)
+
+                // Default Horizontal
+                setGalleryMode(true)
+
+            } catch (e: Exception) {
+
+                Toast.makeText(
+                    requireContext(),
+                    "Gagal memuat foto: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    // Mengubah Mode Gallery
+    private fun setGalleryMode(isHorizontal: Boolean) {
+
+        binding.rvGallery.layoutManager =
+            if (isHorizontal) {
+
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+
+            } else {
+
+                GridLayoutManager(
+                    requireContext(),
+                    2
+                )
+            }
+
+        binding.rvGallery.isNestedScrollingEnabled = false
+    }
+
+    // Dialog Logout
+    private fun showLogoutDialog() {
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Apakah kamu yakin ingin logout?")
+            .setPositiveButton("Ya") { _, _ ->
+
+                val sharedPreferences =
+                    requireActivity().getSharedPreferences(
+                        "user_pref",
+                        MODE_PRIVATE
+                    )
+
+                sharedPreferences.edit().clear().apply()
+
+                val intent = Intent(
+                    requireContext(),
+                    AuthActivity::class.java
+                )
+
+                startActivity(intent)
+                requireActivity().finish()
+            }
+            .setNegativeButton("Batal", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
