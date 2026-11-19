@@ -1,3 +1,4 @@
+
 package com.example.najah_tie_mobile.Home
 
 import android.content.Context.MODE_PRIVATE
@@ -9,13 +10,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.najah_tie_mobile.AuthActivity
+import com.example.najah_tie_mobile.Home.data.api.CatFactApiClient
 import com.example.najah_tie_mobile.Home.pertemuan_11.ElevenActivity
 import com.example.najah_tie_mobile.Home.pertemuan_4.FourthActivity
 import com.example.najah_tie_mobile.Home.pertemuan_5.FifthActivity
 import com.example.najah_tie_mobile.Home.pertemuan_7.SeventhActivity
 import com.example.najah_tie_mobile.Home.petemuan_10.TenthActivity
 import com.example.najah_tie_mobile.databinding.FragmentHomeBinding
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -27,22 +31,26 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Setup Toolbar
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.title = "Home"
-        }
 
         // Tombol menuju Pertemuan 4
         binding.btnToFourth.setOnClickListener {
-            val intent = Intent(requireContext(), FourthActivity::class.java).apply {
+            val intent = Intent(
+                requireContext(),
+                FourthActivity::class.java
+            ).apply {
                 putExtra("name", "Politeknik Caltex Riau")
                 putExtra("from", "Rumbai")
                 putExtra("age", 25)
@@ -52,26 +60,43 @@ class HomeFragment : Fragment() {
 
         // Tombol menuju Pertemuan 5
         binding.btnToFifth.setOnClickListener {
-            val intent = Intent(requireContext(), FifthActivity::class.java)
+            val intent = Intent(
+                requireContext(),
+                FifthActivity::class.java
+            )
             startActivity(intent)
         }
 
-        // Tombol menuju Pertemuan 7 - Fragment
+        // Tombol menuju Pertemuan 7
         binding.btnToSeventh.setOnClickListener {
-            val intent = Intent(requireContext(), SeventhActivity::class.java)
+            val intent = Intent(
+                requireContext(),
+                SeventhActivity::class.java
+            )
             startActivity(intent)
         }
 
         // Tombol menuju Pertemuan 10
         binding.btnToTenth.setOnClickListener {
-            val intent = Intent(requireContext(), TenthActivity::class.java)
+            val intent = Intent(
+                requireContext(),
+                TenthActivity::class.java
+            )
             startActivity(intent)
         }
 
         // Tombol menuju Pertemuan 11
         binding.btnToEleven.setOnClickListener {
-            val intent = Intent(requireContext(), ElevenActivity::class.java)
+            val intent = Intent(
+                requireContext(),
+                ElevenActivity::class.java
+            )
             startActivity(intent)
+        }
+
+        // Tombol Refresh Cat Fact
+        binding.btnRefresh.setOnClickListener {
+            loadCatFact()
         }
 
         // Tombol Logout
@@ -81,22 +106,50 @@ class HomeFragment : Fragment() {
                 .setMessage("Apakah Anda yakin ingin logout?")
                 .setNegativeButton("Tidak", null)
                 .setPositiveButton("Ya") { dialog, _ ->
-                    // Mengakses & menghapus SharedPreferences
-                    val sharedPref =
-                        requireActivity().getSharedPreferences("user_pref", MODE_PRIVATE)
+
+                    // Menghapus SharedPreferences
+                    val sharedPref = requireActivity()
+                        .getSharedPreferences(
+                            "user_pref",
+                            MODE_PRIVATE
+                        )
+
                     sharedPref.edit().clear().apply()
 
                     dialog.dismiss()
 
-                    // Kembali ke AuthActivity & tutup MainActivity
-                    val intent = Intent(requireContext(), AuthActivity::class.java)
+                    // Kembali ke AuthActivity
+                    val intent = Intent(
+                        requireContext(),
+                        AuthActivity::class.java
+                    )
+
                     startActivity(intent)
                     requireActivity().finish()
                 }
                 .show()
         }
     }
+    // Mengambil fakta kucing dari API
+    private fun loadCatFact() {
+        viewLifecycleOwner.lifecycleScope.launch {
 
+            binding.tvCatFact.text = "Loading cat fact..."
+
+            try {
+                val response =
+                    CatFactApiClient.apiService.getCatFact()
+
+                binding.tvCatFact.text = "\"${response.fact}\""
+
+            } catch (e: Exception) {
+                binding.tvCatFact.text =
+                    "Gagal mengambil fakta kucing."
+            }
+        }
+    }
+
+    // Membersihkan binding ketika View dihancurkan
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
