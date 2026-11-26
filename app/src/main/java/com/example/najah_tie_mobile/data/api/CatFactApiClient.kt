@@ -1,4 +1,4 @@
-package com.example.najah_tie_mobile.Home.data.api
+package com.example.najah_tie_mobile.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

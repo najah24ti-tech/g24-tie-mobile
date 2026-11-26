@@ -19,10 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.najah_tie_mobile.R
 import com.example.najah_tie_mobile.AuthActivity
 
-import com.example.najah_tie_mobile.Home.Photo.PhotoAdapter
-import com.example.najah_tie_mobile.Home.data.api.CatFactApiClient
-import com.example.najah_tie_mobile.Home.data.model.PhotoApiClient
-import com.example.najah_tie_mobile.Home.data.model.PhotoModel
+import com.example.najah_tie_mobile.Photo.PhotoAdapter
+import com.example.najah_tie_mobile.data.api.CatFactApiClient
+import com.example.najah_tie_mobile.data.model.PhotoApiClient
+import com.example.najah_tie_mobile.data.model.PhotoModel
 
 import com.example.najah_tie_mobile.Home.pertemuan_11.ElevenActivity
 import com.example.najah_tie_mobile.Home.pertemuan_4.FourthActivity

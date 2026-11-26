@@ -10,6 +10,7 @@ import com.example.najah_tie_mobile.Home.HomeFragment
 import com.example.najah_tie_mobile.Message.MessageFragment
 import com.example.najah_tie_mobile.More.MoreFragment
 import com.example.najah_tie_mobile.databinding.ActivityBaseBinding
+import com.example.najah_tie_mobile.note.NoteFragment
 
 class BaseActivity : AppCompatActivity() {
 
@@ -52,6 +53,11 @@ class BaseActivity : AppCompatActivity() {
 
                 R.id.more -> {
                     replaceFragment(MoreFragment())
+                    true
+                }
+
+                R.id.note -> {
+                    replaceFragment(NoteFragment())
                     true
                 }
 

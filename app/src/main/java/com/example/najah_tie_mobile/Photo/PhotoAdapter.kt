@@ -1,10 +1,10 @@
-package com.example.najah_tie_mobile.Home.Photo
+package com.example.najah_tie_mobile.Photo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.najah_tie_mobile.Home.data.model.PhotoModel
+import com.example.najah_tie_mobile.data.model.PhotoModel
 import com.example.najah_tie_mobile.databinding.ItemPhotoBinding
 
 class PhotoAdapter(private val items: List<PhotoModel>) : RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
